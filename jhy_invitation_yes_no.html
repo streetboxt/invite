@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#2a1233">
+<title>An invitation for Jhy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --night: #2a1233;
+    --plum: #3d1b4a;
+    --blush: #f6d9df;
+    --peach: #ffb59e;
+    --lilac: #b9a3e3;
+    --ink: #2a1233;
+    --paper: #fff6f4;
+    --line: rgba(42, 18, 51, 0.18);
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; min-height: 100dvh; display: flex; align-items: center;
+    justify-content: center; padding: 24px 16px;
+    font-family: "Figtree", system-ui, sans-serif; color: var(--blush);
+    background:
+      radial-gradient(60rem 40rem at 85% -10%, rgba(255, 181, 158, 0.28), transparent 60%),
+      radial-gradient(50rem 40rem at -10% 110%, rgba(185, 163, 227, 0.25), transparent 60%),
+      var(--night);
+  }
+  main { width: 100%; max-width: 440px; }
+  h1, h2 { font-family: "Young Serif", Georgia, serif; font-weight: 400; line-height: 1.15; margin: 0 0 12px; }
+  p { line-height: 1.55; margin: 0 0 16px; }
+  [hidden] { display: none !important; }
+  .gate h1 { font-size: 2rem; }
+  .gate p { color: rgba(246, 217, 223, 0.85); }
+  .code-input {
+    width: 100%; font: 600 1.6rem/1.3 "Figtree", system-ui, sans-serif;
+    letter-spacing: 0.12em; text-align: center; padding: 18px 12px;
+    color: var(--blush); background: rgba(255, 255, 255, 0.07);
+    border: 2px solid rgba(246, 217, 223, 0.35); border-radius: 14px; outline: none;
+  }
+  .code-input::placeholder { color: rgba(246, 217, 223, 0.3); letter-spacing: 0.08em; }
+  .code-input:focus-visible { border-color: var(--peach); box-shadow: 0 0 0 4px rgba(255, 181, 158, 0.25); }
+  .code-input.shake { animation: shake 0.4s; border-color: #ff8f8f; }
+  @keyframes shake { 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
+  .error { min-height: 1.5em; margin: 10px 0 14px; color: #ffb3b3; font-size: 0.95rem; }
+  .field-label { display: block; font-weight: 600; font-size: 1rem; margin-bottom: 8px; }
+  .btn {
+    display: block; width: 100%; font: 600 1.05rem "Figtree", system-ui, sans-serif;
+    padding: 16px; border: 0; border-radius: 14px; cursor: pointer;
+    color: var(--ink); background: var(--peach);
+  }
+  .btn:hover { background: #ffc4b0; }
+  .btn:focus-visible { outline: 3px solid var(--blush); outline-offset: 3px; }
+  .btn:disabled { opacity: 0.6; cursor: wait; }
+  .btn.ghost { margin-top: 10px; background: transparent; color: var(--ink); border: 2px solid var(--line); }
+  .btn.ghost:hover { background: rgba(42, 18, 51, 0.06); }
+  .question-card {
+    text-align: center; padding: 32px 24px; border-radius: 22px;
+    background: var(--paper); color: var(--ink);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+  }
+  .question-card h1 { font-size: 2rem; }
+  .question-card p { color: #5a3f66; }
+  .choice-area { position: relative; min-height: 100px; margin-top: 20px; }
+  .choice-area .btn { position: absolute; width: 42%; top: 12px; }
+  #answer-yes { left: 3%; }
+  #answer-no { left: 54%; background: #eee3f4; }
+  .ticket { position: relative; background: var(--paper); color: var(--ink); border-radius: 22px; overflow: hidden; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45); }
+  .ticket-top { padding: 30px 26px 24px; }
+  .ticket-top h2 { font-size: 2rem; }
+  .ticket-top p { margin: 0; color: #5a3f66; }
+  .perf { position: relative; height: 0; border-top: 2px dashed var(--line); margin: 0 18px; }
+  .perf::before, .perf::after { content: ""; position: absolute; top: -13px; width: 24px; height: 24px; border-radius: 50%; background: var(--plum); }
+  .perf::before { left: -30px; } .perf::after { right: -30px; }
+  .ticket-body { padding: 24px 26px 28px; }
+  fieldset { border: 0; padding: 0; margin: 0 0 22px; }
+  legend { font-weight: 600; font-size: 1rem; padding: 0; margin-bottom: 4px; }
+  .hint { font-size: 0.88rem; color: #6b5478; margin: 0 0 12px; }
+  .days { display: flex; flex-wrap: wrap; gap: 8px; }
+  .day { position: relative; }
+  .day input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .day span { display: inline-block; min-width: 58px; text-align: center; padding: 11px 14px; font-weight: 600; border: 2px solid var(--line); border-radius: 999px; cursor: pointer; user-select: none; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+  .day input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--blush); }
+  .day input:focus-visible + span { outline: 3px solid var(--lilac); outline-offset: 2px; }
+  .row { display: flex; gap: 10px; }
+  .row > * { flex: 1; min-width: 0; }
+  input[type="date"], input[type="time"], textarea {
+    width: 100%; font: 500 1rem "Figtree", system-ui, sans-serif; padding: 13px 12px;
+    color: var(--ink); background: #fff; border: 2px solid var(--line); border-radius: 12px;
+  }
+  textarea { resize: vertical; min-height: 76px; }
+  input[type="date"]:focus-visible, input[type="time"]:focus-visible, textarea:focus-visible { outline: 3px solid var(--lilac); outline-offset: 1px; }
+  .form-error { min-height: 1.4em; margin: 0 0 10px; color: #b3261e; font-size: 0.92rem; }
+  .done { text-align: center; } .done h2 { font-size: 2.1rem; }
+  .summary { margin: 18px 0 0; padding: 16px; border-radius: 14px; background: rgba(255, 255, 255, 0.07); text-align: left; font-size: 0.98rem; line-height: 1.6; overflow-wrap: anywhere; }
+  .setup-note { margin-top: 18px; padding: 12px 14px; border-radius: 12px; background: #fff3c4; color: #5b4600; font-size: 0.88rem; text-align: left; }
+  @media (max-width: 360px) { .ticket-top, .ticket-body { padding-left: 20px; padding-right: 20px; } .row { gap: 8px; } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<main>
+  <!-- Verification 1: first date -->
+  <section class="gate" id="gate">
+    <h1>Hold on, is this really for you?</h1>
+    <p>To verify you're the right person for this invite, enter the date of our first date. Use MMDDYYYY.</p>
+    <label class="field-label" for="code">Date of our first date</label>
+    <input class="code-input" id="code" type="text" inputmode="numeric" autocomplete="off"
+      maxlength="8" placeholder="MMDDYYYY" aria-describedby="gate-error">
+    <p class="error" id="gate-error" role="alert" aria-live="polite"></p>
+    <button class="btn" id="unlock" type="button">Open my invite</button>
+  </section>
+
+  <!-- Verification 2: food request -->
+  <section class="gate" id="gate2" hidden>
+    <h1>Okay, one more check.</h1>
+    <p>What food did you ask me for?</p>
+    <label class="field-label" for="code2">Your answer</label>
+    <input class="code-input" id="code2" type="text" autocomplete="off" autocapitalize="none"
+      maxlength="40" placeholder="Type your answer" aria-describedby="gate2-error">
+    <p class="error" id="gate2-error" role="alert" aria-live="polite"></p>
+    <button class="btn" id="unlock2" type="button">Open my invite</button>
+  </section>
+
+  <section id="question" hidden>
+    <div class="question-card">
+      <h1 id="question-title">Jhy, will you go on a date with me?</h1>
+      <p>I promise good food and even better company. 💗</p>
+      <div class="choice-area" id="choice-area">
+        <button class="btn" id="answer-yes" type="button">Yes! 💖</button>
+        <button class="btn" id="answer-no" type="button">No 🙈</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="invite" hidden>
+    <div class="ticket">
+      <div class="ticket-top">
+        <h2 id="invite-title"></h2>
+        <p>Pick the days that work for you, or choose your own date.</p>
+      </div>
+      <div class="perf" aria-hidden="true"></div>
+      <div class="ticket-body">
+        <fieldset>
+          <legend>Days that work</legend>
+          <p class="hint">Select as many as you like.</p>
+          <div class="days" id="days"></div>
+        </fieldset>
+        <fieldset>
+          <legend>Or pick a specific date</legend>
+          <p class="hint">Optional. Add a time if you have one in mind.</p>
+          <div class="row">
+            <div>
+              <label for="custom-date" class="hint" style="display:block;margin-bottom:4px">Date</label>
+              <input type="date" id="custom-date">
+            </div>
+            <div>
+              <label for="custom-time" class="hint" style="display:block;margin-bottom:4px">Time</label>
+              <input type="time" id="custom-time">
+            </div>
+          </div>
+        </fieldset>
+        <fieldset>
+          <label class="field-label" for="note">Anything else?</label>
+          <p class="hint">Optional. Food you love, places you want to try, anything.</p>
+          <textarea id="note" maxlength="1000"></textarea>
+        </fieldset>
+        <p class="form-error" id="form-error" role="alert" aria-live="polite"></p>
+        <button class="btn" id="send-yes" type="button">Send my answer</button>
+        <button class="btn ghost" id="send-maybe" type="button">Maybe another time</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="done" id="done" hidden>
+    <h2 id="done-title"></h2>
+    <p id="done-text"></p>
+    <div class="summary" id="summary" hidden></div>
+  </section>
+</main>
+
+<script>
+  // EDIT THESE SETTINGS
+  const CONFIG = {
+    name: "Jhy",
+    secretDate: "10232026", // MMDDYYYY — change this if needed
+    formspreeId: "xeaaoqzj"
+  };
+
+  const $ = (id) => document.getElementById(id);
+  const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const FULL = { Mon: "Monday", Tue: "Tuesday", Wed: "Wednesday", Thu: "Thursday", Fri: "Friday", Sat: "Saturday", Sun: "Sunday" };
+
+  document.title = "An invitation for " + CONFIG.name;
+  $("invite-title").textContent = CONFIG.name + ", will you go on a date with me?";
+
+  DAYS.forEach((d) => {
+    const label = document.createElement("label");
+    label.className = "day";
+    label.innerHTML = '<input type="checkbox" name="day" value="' + FULL[d] + '"><span>' + d + "</span>";
+    $("days").appendChild(label);
+  });
+
+  const code = $("code");
+  code.addEventListener("input", () => {
+    code.value = code.value.replace(/\D/g, "").slice(0, 8);
+    $("gate-error").textContent = "";
+    code.classList.remove("shake");
+  });
+  code.addEventListener("keydown", (e) => { if (e.key === "Enter") verifyDate(); });
+  $("unlock").addEventListener("click", verifyDate);
+
+  function shakeInput(input) {
+    input.classList.remove("shake");
+    void input.offsetWidth;
+    input.classList.add("shake");
+    input.focus();
+  }
+
+  function verifyDate() {
+    if (code.value === CONFIG.secretDate) {
+      $("gate").hidden = true;
+      $("gate2").hidden = false;
+      $("code2").focus();
+      window.scrollTo(0, 0);
+    } else {
+      $("gate-error").textContent = code.value.length < 8
+        ? "Enter all 8 digits: month, day, then year."
+        : "That's not the date. Try again.";
+      shakeInput(code);
+    }
+  }
+
+  const code2 = $("code2");
+  code2.addEventListener("input", () => {
+    $("gate2-error").textContent = "";
+    code2.classList.remove("shake");
+  });
+  code2.addEventListener("keydown", (e) => { if (e.key === "Enter") verifyFood(); });
+  $("unlock2").addEventListener("click", verifyFood);
+
+  function verifyFood() {
+    // Accepts TAKOYAKI, takoyaki, Takoyaki, and extra surrounding spaces.
+    const answer = code2.value.trim().toLocaleLowerCase().replace(/\s+/g, "");
+    if (answer === "takoyaki") {
+      $("gate2").hidden = true;
+      $("question").hidden = false;
+      window.scrollTo(0, 0);
+    } else {
+      $("gate2-error").textContent = code2.value.trim() ? "Not quite. Try again." : "Enter your answer first.";
+      shakeInput(code2);
+    }
+  }
+
+  // The playful "No" button dodges the cursor or a tap.
+  const noButton = $("answer-no");
+  const choiceArea = $("choice-area");
+  function moveNoButton() {
+    const maxX = Math.max(0, choiceArea.clientWidth - noButton.offsetWidth);
+    const maxY = Math.max(0, choiceArea.clientHeight - noButton.offsetHeight);
+    noButton.style.left = Math.round(Math.random() * maxX) + "px";
+    noButton.style.top = Math.round(Math.random() * maxY) + "px";
+  }
+  noButton.addEventListener("mouseenter", moveNoButton);
+  noButton.addEventListener("touchstart", (event) => {
+    event.preventDefault();
+    moveNoButton();
+  }, { passive: false });
+  noButton.addEventListener("click", moveNoButton);
+
+  $("answer-yes").addEventListener("click", () => {
+    $("question").hidden = true;
+    $("invite").hidden = false;
+    window.scrollTo(0, 0);
+  });
+
+  function prettyDate(iso) {
+    if (!iso) return "";
+    const [y, m, d] = iso.split("-").map(Number);
+    return new Date(y, m - 1, d).toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+  }
+  function prettyTime(t) {
+    if (!t) return "";
+    const [h, m] = t.split(":").map(Number);
+    return new Date(2000, 0, 1, h, m).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  }
+
+  async function send(answer) {
+    const days = [...document.querySelectorAll('input[name="day"]:checked')].map((i) => i.value);
+    const date = $("custom-date").value;
+    const time = $("custom-time").value;
+    const note = $("note").value.trim();
+
+    if (answer === "Yes" && days.length === 0 && !date) {
+      $("form-error").textContent = "Pick at least one day, or choose a specific date.";
+      return;
+    }
+    if (time && !date) {
+      $("form-error").textContent = "Choose a date as well if you'd like to suggest a time.";
+      return;
+    }
+    $("form-error").textContent = "";
+
+    const customDate = date ? prettyDate(date) + (time ? " at " + prettyTime(time) : "") : "";
+    const payload = {
+      _subject: CONFIG.name + " responded to your date invite: " + answer,
+      answer: answer,
+      days_that_work: days.join(", ") || "(none selected)",
+      specific_date: customDate || "(none)",
+      note: note || "(none)"
+    };
+
+    $("send-yes").disabled = true;
+    $("send-maybe").disabled = true;
+
+    const configured = CONFIG.formspreeId && CONFIG.formspreeId !== "YOUR_FORM_ID";
+    if (!configured) {
+      $("form-error").textContent = "Email notifications aren't configured yet. Please add your Formspree form ID before publishing.";
+      $("send-yes").disabled = false;
+      $("send-maybe").disabled = false;
+      return;
+    }
+
+    let ok = false;
+    try {
+      const res = await fetch("https://formspree.io/f/" + encodeURIComponent(CONFIG.formspreeId), {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      ok = res.ok;
+    } catch (e) { ok = false; }
+
+    if (!ok) {
+      $("form-error").textContent = "That didn't send. Check your connection and try again.";
+      $("send-yes").disabled = false;
+      $("send-maybe").disabled = false;
+      return;
+    }
+    showDone(answer, days, customDate, note);
+  }
+
+  function escapeHtml(value) {
+    return value.replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[char]);
+  }
+
+  function showDone(answer, days, customDate, note) {
+    $("invite").hidden = true;
+    $("done").hidden = false;
+    window.scrollTo(0, 0);
+    if (answer === "Yes") {
+      $("done-title").textContent = "It's a date.";
+      $("done-text").textContent = "Thank you, " + CONFIG.name + ". I got your answer and I'll message you to lock it in.";
+    } else {
+      $("done-title").textContent = "No pressure.";
+      $("done-text").textContent = "Thanks for letting me know. The invite is open whenever you're ready.";
+    }
+    const lines = [];
+    if (days.length) lines.push("<strong>Days:</strong> " + days.join(", "));
+    if (customDate) lines.push("<strong>Specific date:</strong> " + escapeHtml(customDate));
+    if (note) lines.push("<strong>Note:</strong> " + escapeHtml(note));
+    if (lines.length && answer === "Yes") {
+      $("summary").innerHTML = lines.join("<br>");
+      $("summary").hidden = false;
+    } else {
+      $("summary").hidden = true;
+    }
+  }
+
+  $("send-yes").addEventListener("click", () => send("Yes"));
+  $("send-maybe").addEventListener("click", () => send("Maybe another time"));
+</script>
+</body>
+</html>
